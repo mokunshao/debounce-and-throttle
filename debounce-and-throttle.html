@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function throttle(fn, delay) {
+        let canUse = true;
+        return function() {
+          if (canUse) {
+            fn.apply(this, arguments);
+            canUse = false;
+            setTimeout(() => (canUse = true), delay);
+          }
+        }
+      }
+
+      function debounce(fn, delay) {
+        let timerId = null;
+        return function() {
+          if (timerId) {
+            window.clearTimeout(timerId);
+          }
+          timerId = setTimeout(() => {
+            fn.apply(this, arguments);
+          }, delay);
+        };
+      }
+
+      document.onmousemove = throttle(() => console.log("鼠标移动了"), 1000);
+      document.onmousewheel = debounce(() => console.log("鼠标中键滚动了"), 1000);
+    </script>
+  </body>
+</html>
